@@ -1,53 +1,41 @@
 #include <Arduino.h>
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
 
-/*
- Blink 
-  Arduino
+// I2C OLED example: 4-pin module (VCC, GND, SDA, SCL)
+// Connect to Arduino I2C pins:
+//   - On Arduino Uno / Nano: SDA = A4, SCL = A5
+//   - On many other boards: use dedicated SDA/SCL pins
 
-This sketch Blinks a LED connected to Digital Pin 8 via a 330 Ohm resistors.
-  Turns on for one second, then off for one second, repeatedly.
-  
-   This lesson introduces some of the most basic functions in the Arduino
-   language: digitalWrite([pin], [HIGH/LOW]) and delay([milliseconds]).
-   Used together, these functions can be used to control an LED and time!
-   
-   Written by Glenn Mossy, Mar 25, 2015
-*/
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+#define OLED_RESET    -1      // Reset pin (or -1 if shared/unused)
+#define OLED_I2C_ADDR 0x3C    // Common I2C address for 128x64 OLED
 
-void setup()   {                
-  // Initialize Arduino Digital Pins 6-13 as outputs for multi-LED sequence
-  for (int pin = 6; pin <= 13; pin++) {
-    pinMode(pin, OUTPUT);
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+
+void setup() {
+  Wire.begin();
+
+  if (!display.begin(SSD1306_SWITCHCAPVCC, OLED_I2C_ADDR)) {
+    // If the display does not initialize, stay here
+    for (;;) {
+      // Optional: blink an onboard LED here to signal error
+      delay(1000);
+    }
   }
+
+  display.clearDisplay();
+  display.setTextSize(2);           // Medium text
+  display.setTextColor(SSD1306_WHITE);
+  display.setCursor(0, 0);
+  display.println("Hello,");
+  display.println("world!");
+  display.display();
 }
 
-void loop()                     
-{
-  // Fancy sequence on pins 6-13: forward chase, reverse chase, then all flash
-
-  // Forward chase: light each LED from D6 to D13
-  for (int pin = 6; pin <= 13; pin++) {
-    digitalWrite(pin, HIGH);
-    delay(120);
-    digitalWrite(pin, LOW);
-  }
-
-  // Reverse chase: light each LED from D13 back to D6
-  for (int pin = 13; pin >= 6; pin--) {
-    digitalWrite(pin, HIGH);
-    delay(120);
-    digitalWrite(pin, LOW);
-  }
-
-  // All LEDs flash twice together
-  for (int i = 0; i < 2; i++) {
-    for (int pin = 6; pin <= 13; pin++) {
-      digitalWrite(pin, HIGH);
-    }
-    delay(200);
-    for (int pin = 6; pin <= 13; pin++) {
-      digitalWrite(pin, LOW);
-    }
-    delay(200);
-  }
+void loop() {
+  // Nothing to do in loop for a static Hello World message
 }
+
