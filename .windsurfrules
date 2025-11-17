@@ -1,0 +1,37 @@
+# Project overview
+- This repo is a PlatformIO-based template for Arduino, ESP32, and RP2040 boards.
+- Primary workflow: VS Code + PlatformIO.
+- arduino-cli is optional and used only for .ino sketch folders like ./blink and ./oled_hello.
+
+# Entry points
+- PlatformIO firmware entry point: src/main.cpp
+- PlatformIO environments are defined in platformio.ini:
+  - [env:uno] for Arduino Uno
+  - [env:esp32dev] for ESP32 dev boards
+  - [env:pico] for RP2040 / Raspberry Pi Pico
+- Arduino CLI sketches:
+  - ./blink (blink/blink.ino)
+  - ./oled_hello (oled_hello/oled_hello.ino)
+
+# Commands the assistant should prefer
+- Build & upload to Uno via PlatformIO:
+  - pio run -t upload -e uno
+- Build & upload to ESP32:
+  - pio run -t upload -e esp32dev
+- Build & upload to Pico:
+  - pio run -t upload -e pico
+- Upload blink via arduino-cli:
+  - arduino-cli compile --fqbn arduino:avr:uno ./blink
+  - arduino-cli upload -p /dev/cu.usbserial-DN050KN9 --fqbn arduino:avr:uno ./blink
+
+# Coding preferences
+- Use src/main.cpp as the main firmware for PlatformIO; do not create random new entry files.
+- When adding new examples:
+  - Put PlatformIO versions under src/ (or clearly named .cpp files).
+  - Put Arduino-IDE/CLI versions in separate .ino folders.
+- Keep README.md as the main documentation; update it instead of adding extra doc files.
+- Do not remove arduino-cli.ini; keep it as optional CLI support.
+
+# Git / repo hygiene
+- Respect .gitignore (don’t commit .pio/ or macOS junk).
+- Keep this repo usable as a template for new projects.

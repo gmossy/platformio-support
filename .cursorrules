@@ -1,0 +1,27 @@
+# Cursor project rules
+
+- This is a PlatformIO-based template for Arduino, ESP32, and RP2040 boards.
+- Primary workflow: PlatformIO + VS Code; arduino-cli is optional.
+
+## Entry points
+- PlatformIO main firmware: src/main.cpp
+- Environments in platformio.ini: [env:uno], [env:esp32dev], [env:pico]
+- Arduino CLI sketches: ./blink, ./oled_hello
+
+## Preferred commands
+- Uno:
+  - pio run -t upload -e uno
+- ESP32:
+  - pio run -t upload -e esp32dev
+- Pico/RP2040:
+  - pio run -t upload -e pico
+- Arduino CLI blink:
+  - arduino-cli compile --fqbn arduino:avr:uno ./blink
+  - arduino-cli upload -p /dev/cu.usbserial-DN050KN9 --fqbn arduino:avr:uno ./blink
+
+## Guidelines for AI edits
+- Do not change the overall repo layout (platformio.ini, arduino-cli.ini, README.md are authoritative).
+- Put new firmware logic in src/main.cpp or clearly named files under src/.
+- Keep .ino examples in their own sketch folders.
+- Update README.md when adding new board environments or workflows.
+- Avoid committing .pio/ and OS-specific junk; follow .gitignore.
