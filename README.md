@@ -352,13 +352,17 @@ based on the board and sketch you are targeting.
 - The files `.windsurfrules` and `.cursorrules` provide project rules for
   AI coding assistants (Windsurf, Cursor) so they know to use PlatformIO as
   the primary workflow and keep this repo usable as a template.
-- To use the serial monitor from the terminal, use:
-    arduino-cli compile --fqbn arduino:avr:uno ./i2c_scanner
-    arduino-cli upload -p /dev/cu.usbserial-DN050KN9 --fqbn arduino:avr:uno ./i2c_scanner
-    ```bash
-    screen /dev/cu.usbserial-DN050KN9 9600
+- To use the serial monitor from the terminal, you can for example:
+
+  ```bash
+  arduino-cli compile --fqbn arduino:avr:uno ./i2c_scanner
+  arduino-cli upload -p /dev/cu.usbserial-DN050KN9 --fqbn arduino:avr:uno ./i2c_scanner
+  screen /dev/cu.usbserial-DN050KN9 9600
   ```
 
+- An example OLED output image is stored at
+  `oled_hello/IMG_3636.png` and can be referenced in Markdown like:
 
-  
-  
+  ```markdown
+  ![OLED Hello World](oled_hello/IMG_3636.png)
+  ```
