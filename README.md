@@ -1,6 +1,7 @@
 by Glenn Mossy
 
-# Uno-Tests / Microcontroller Sketch Template
+
+# Arduino Uno-Tests / Microcontroller Sketch Template
 
 This repository is a **template project** for developing and uploading sketches to
 Arduino, ESP32, and RP2040-based boards using:
@@ -23,7 +24,7 @@ sketch** using **VS Code + PlatformIO**.
 3. Clone or download this repository:
 
    ```bash
-   git clone <this-repo-url>
+   git clone https://github.com/gmossy/platformio-support.git
    cd Uno-Tests
    ```
 
@@ -266,6 +267,50 @@ different boards.
    - Monitor serial (`Monitor`)
 
 Configuration is driven by `platformio.ini`.
+
+### How PlatformIO knows what to upload
+
+PlatformIO does **not** look at `.ino` folders when building. Instead, it:
+
+- Compiles sources under `src/` (for example, `src/main.cpp`).
+- Uses the **environment** you select (e.g. `env:uno`, `env:esp32dev`,
+  `env:pico`) to decide:
+  - Which board to target (`board = uno`, `board = esp32dev`, etc.).
+  - Which upload port to use (`upload_port = ...`).
+
+That means:
+
+- When you run:
+
+  ```bash
+  pio run -t upload -e uno       # or esp32dev / pico
+  ```
+
+  PlatformIO uploads whatever code is currently in `src/` (typically
+  `src/main.cpp`) using the settings in `[env:uno]` (or the env you chose).
+
+- If you want to switch from a **Blink** sketch to an **OLED** sketch under
+  PlatformIO, you update `src/main.cpp` (or use multiple source files and
+  `#ifdef`s / different envs) rather than pointing PIO directly at
+  `blink/blink.ino`.
+
+By contrast, **arduino-cli** and the Arduino IDE think in terms of **sketch
+folders**:
+
+- The sketch is the folder (e.g. `./blink`) and the `.ino` inside it.
+- When you run:
+
+  ```bash
+  arduino-cli compile --fqbn arduino:avr:uno ./blink
+  arduino-cli upload -p /dev/cu.usbserial-DN050KN9 --fqbn arduino:avr:uno ./blink
+  ```
+
+  `arduino-cli` compiles and uploads the `.ino` in that folder.
+
+This template keeps **both styles**:
+
+- PlatformIO: primary, using `src/main.cpp` and `pio run -t upload -e <env>`.
+- arduino-cli: optional, using sketch folders like `./blink`.
 
 ### When working from the terminal only
 
